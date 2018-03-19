@@ -77,7 +77,9 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".showSchoolLocation"
-            android:label="@string/title_activity_show_school_location" android:parentActivityName=".SchoolInfo"></activity>
+            android:label="@string/title_activity_show_school_location"
+            android:parentActivityName=".SchoolInfo" />
+        <activity android:name=".ForgetPassword" android:theme="@style/Base.Theme.AppCompat.Light.Dialog.Alert"></activity>
     </application>
 
 </manifest>

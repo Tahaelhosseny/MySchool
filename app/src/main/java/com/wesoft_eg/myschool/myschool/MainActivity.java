@@ -1,6 +1,8 @@
 package com.wesoft_eg.myschool.myschool;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.location.Location;
@@ -24,6 +26,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -67,10 +71,8 @@ public class MainActivity extends AppCompatActivity
 
     ArrayList<SchoolObject> schoolList = new ArrayList<SchoolObject>();
 
-    ArrayList<KidsObject> kidslList = new ArrayList<KidsObject>();
 
-
-
+    String access_token = "";
 
 
 
@@ -78,6 +80,10 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences sharedPrefv =getSharedPreferences("com.wesoft_eg.myschool.myschool",Context.MODE_PRIVATE);
+        access_token = sharedPrefv.getString("access_token" , null) ;
+        Toast.makeText(getApplicationContext() , access_token ,Toast.LENGTH_LONG).show();
         init();
     }
 
@@ -98,6 +104,7 @@ public class MainActivity extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
     }
 
 
@@ -136,8 +143,34 @@ public class MainActivity extends AppCompatActivity
         {
             startActivity(new Intent(getApplicationContext(),Filter.class));
         }
+        else if(id==R.id.Logout)
+        {
+            logOut();
+        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void logOut()
+    {
+        boolean loggedIn = AccessToken.getCurrentAccessToken() == null;
+
+        if(!loggedIn)
+        {
+            LoginManager.getInstance().logOut();
+            Toast.makeText(getApplicationContext() , "you Logged Out Successfully" , Toast.LENGTH_LONG).show();
+            finish();
+
+        }
+        else if(!access_token.isEmpty())
+        {
+            SharedPreferences sharedPref =getSharedPreferences("com.wesoft_eg.myschool.myschool",Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.remove("access_token");
+            editor.apply();
+            Toast.makeText(getApplicationContext() , "you Logged Out Successfully" , Toast.LENGTH_LONG).show();
+            finish();
+        }
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

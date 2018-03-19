@@ -1,8 +1,11 @@
 package com.wesoft_eg.myschool.myschool;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +22,9 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.wesoft_eg.myschool.myschool.netHelper.MakeRequest;
 import com.wesoft_eg.myschool.myschool.netHelper.VolleyCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -46,12 +52,14 @@ public class Login extends Activity
 
     private static final String EMAIL = "email";
 
+    String access_token="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         init();
     }
 
@@ -74,12 +82,22 @@ public class Login extends Activity
         mProgressDialog.setTitle("Logon in");
         mProgressDialog.setMessage("we are happy that you are with us");
         mProgressDialog.setCanceledOnTouchOutside(false);
+        SharedPreferences sharedPrefv =getSharedPreferences("com.wesoft_eg.myschool.myschool",Context.MODE_PRIVATE);
+        access_token = sharedPrefv.getString("access_token" , null) ;
 
         boolean loggedIn = AccessToken.getCurrentAccessToken() == null;
 
         if(!loggedIn)
         {
+            ActivityOptions options = ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.down_to_up, R.anim.down_to_up);
+            Intent intent =new Intent(getApplicationContext() , MainActivity.class);
+            startActivity(intent ,options.toBundle());
+            finish();
+        }
+        else if(access_token != null)
+        {
             startActivity(new Intent(getApplicationContext() , MainActivity.class));
+            finish();
         }
 
 
@@ -92,6 +110,7 @@ public class Login extends Activity
             public void onSuccess(LoginResult loginResult)
             {
                 startActivity(new Intent(getApplicationContext() , MainActivity.class));
+                finish();
             }
 
             @Override
@@ -138,7 +157,22 @@ public class Login extends Activity
                 mProgressDialog.dismiss();
                 if(result.get("status").toString().contains("ok"))
                 {
+
+                    String token = result.get("res").toString();
+                    try {
+                        JSONObject jsonObject = new JSONObject(token);
+                        SharedPreferences.Editor editor = getSharedPreferences("com.wesoft_eg.myschool.myschool", MODE_PRIVATE).edit();
+                        editor.putString("access_token", jsonObject.getString("access_token"));
+                        editor.apply();
+
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                     startActivity(new Intent(getApplicationContext() , MainActivity.class));
+                    finish();
 
                 }
                 else
@@ -159,5 +193,10 @@ public class Login extends Activity
     public void register(View view)
     {
         startActivity(new Intent(getApplicationContext() , Registration.class));
+    }
+
+    public void forgetPassowrd(View view)
+    {
+        startActivity(new Intent(getApplicationContext(),ForgetPassword.class));
     }
 }
