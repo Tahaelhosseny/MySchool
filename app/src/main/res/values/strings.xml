@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">WeBooking</string>
+
+
+    <string name="facebook_app_id">267328427137817</string>
+    <string name="fb_login_protocol_scheme">fb267328427137817</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+
+    <string-array name="_Country">
+        <item> Choose Country ...</item>
+        <item> Egypt </item>
+        <item> KSA </item>
+        <item> Bahrain</item>
+        <item> Kuwait</item>
+        <item> UAE</item>
+        <item> Qatar</item>
+
+    </string-array>
+
+
+    <string-array name="city">
+        <item> Choose City ...</item>
+
+
+    </string-array>
+
+
+    <string-array name="area">
+        <item> Choose Area ...</item>
+
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_show_school_location">Map</string>
+
+</resources>

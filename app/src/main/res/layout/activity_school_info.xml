@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.wesoft_eg.myschool.myschool.SchoolInfo">
+
+
+    <ImageView
+        android:id="@+id/profile_image"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_alignParentStart="true"
+        android:layout_margin="5dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/splach" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profile_image"
+        android:id="@+id/buttons"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="about"
+            android:onClick="About"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="gallery"
+            android:layout_gravity="center_vertical"
+            android:textSize="10sp"
+            android:text="gallery"
+            android:layout_weight="1" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="features"
+            android:onClick="features"
+            android:layout_gravity="center_vertical"
+            android:textSize="10sp"
+            android:layout_weight="1" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="8sp"
+            android:onClick="sector"
+            android:text="Educational \n sectors"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_below="@+id/buttons"
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/profile_image"
+        android:layout_alignStart="@+id/profile_image"
+        android:background="@android:color/holo_green_light"
+        android:text="call now"
+        android:layout_margin="5dp"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/profile_image"
+        android:layout_alignEnd="@+id/profile_image"
+        android:text="4/5"
+        android:layout_margin="5dp"
+        android:id="@+id/rating"
+        android:textColor="#fff" />
+
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/profile_image"
+        android:layout_alignTop="@+id/button2"
+        android:layout_margin="5dp"
+        android:gravity="center_vertical"
+        android:layout_toEndOf="@+id/button2"
+        android:text="Title"
+        android:textStyle="bold"
+        android:textColor="#fff" />
+
+
+</RelativeLayout>
