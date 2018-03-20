@@ -77,7 +77,8 @@ public class MainActivity extends AppCompatActivity
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -282,7 +283,7 @@ public class MainActivity extends AppCompatActivity
 
         params.put("countryId", "2");
 
-        MakeRequest makeRequest = new MakeRequest("/api/values/ApplyFilters" , "1" ,params , this);
+        MakeRequest makeRequest = new MakeRequest("/api/Values/EngApplyFilters" , "1" ,params , this);
 
         makeRequest.request(new VolleyCallback()
         {
@@ -366,7 +367,9 @@ public class MainActivity extends AppCompatActivity
             for (int i=0 ; i < schoolJsonArray1.length() ; i++)
             {
                 JSONObject jsonObject1 = schoolJsonArray1.getJSONObject(i);
-                SchoolObject schoolObject = new SchoolObject(jsonObject1.getString("schoolId"),jsonObject1.getString("Title"),jsonObject1.getString("TitleAr"),jsonObject1.getString("CategoryId"),jsonObject1.getString("SubcategoryId"),jsonObject1.getString("IsSchool"),jsonObject1.getString("Rate"),jsonObject1.getString("Priority"),jsonObject1.getString("Lat"),jsonObject1.getString("Long"));
+               // SchoolObject schoolObject = new SchoolObject(jsonObject1.getString("schoolId"),jsonObject1.getString("Title"),jsonObject1.getString("TitleAr"),jsonObject1.getString("CategoryId"),jsonObject1.getString("SubcategoryId"),jsonObject1.getString("IsSchool"),jsonObject1.getString("Rate"),jsonObject1.getString("Priority"),jsonObject1.getString("Lat"),jsonObject1.getString("Long"));
+//              (schoolId,  titleAr,  isSchool,  rate,  priority,  lat,  aLong,  CategoryTitle,  SubCategoryTitle )
+                SchoolObject schoolObject = new SchoolObject(jsonObject1.getString("schoolId"),jsonObject1.getString("title"),jsonObject1.getString("IsSchool"),jsonObject1.getString("Rate"),jsonObject1.getString("Priority"),jsonObject1.getString("Lat"),jsonObject1.getString("Long") ,jsonObject1.getString("CategoryTitle"),jsonObject1.getString("SubCategoryTitle"));
                 schoolList.add(schoolObject);
             }
             String kids = jsonObject.getString("kidsCenters");
@@ -376,7 +379,7 @@ public class MainActivity extends AppCompatActivity
             for (int i=0 ; i < kidsJsonArray1.length() ; i++)
             {
                 JSONObject jsonObject1 = kidsJsonArray1.getJSONObject(i);
-                SchoolObject kidslObject = new SchoolObject(jsonObject1.getString("KidsCenterId"),jsonObject1.getString("Title"),jsonObject1.getString("TitleAr"),jsonObject1.getString("CategoryId"),jsonObject1.getString("SubcategoryId"),jsonObject1.getString("IsSchool"),jsonObject1.getString("Rate"),jsonObject1.getString("Priority"),jsonObject1.getString("Lat"),jsonObject1.getString("Long"));
+                SchoolObject kidslObject = new SchoolObject(jsonObject1.getString("KidsCenterId"),jsonObject1.getString("title"),jsonObject1.getString("IsSchool"),jsonObject1.getString("Rate"),jsonObject1.getString("Priority"),jsonObject1.getString("Lat"),jsonObject1.getString("Long") ,jsonObject1.getString("CategoryTitle"),jsonObject1.getString("SubCategoryTitle"));
                 schoolList.add(kidslObject);
             }
 

@@ -42,8 +42,8 @@
     <string name="title_activity_show_school_location">Map</string>
 
 
-
-
     <string name="fpass"><u>Forget Password ! </u></string>
+    <string name="arfpass"><u>نسيت كلمه السر ! </u></string>
+
 
 </resources>

@@ -2,6 +2,7 @@ package com.wesoft_eg.myschool.myschool.netHelper;
 
 import android.content.Context;
 import android.media.MediaRouter;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -77,6 +78,8 @@ public class MakeRequest
             {
                 Responce.put("status" , "ok");
                 Responce.put("res" , response);
+                Log.e("fffffffffffffffff",response);
+
                 callback.onSuccess(Responce);
         }
         }, new Response.ErrorListener()
@@ -87,7 +90,6 @@ public class MakeRequest
                 Responce.put("status" , "not");
                 Responce.put("res" , error.toString());
                 Toast.makeText(context , error.toString() , Toast.LENGTH_SHORT).show();
-
                 callback.onSuccess(Responce);
 
             }

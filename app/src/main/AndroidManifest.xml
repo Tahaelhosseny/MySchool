@@ -64,7 +64,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".Registration" />
+        <activity
+            android:name=".Registration" />
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
@@ -79,7 +80,14 @@
             android:name=".showSchoolLocation"
             android:label="@string/title_activity_show_school_location"
             android:parentActivityName=".SchoolInfo" />
-        <activity android:name=".ForgetPassword" android:theme="@style/Base.Theme.AppCompat.Light.Dialog.Alert"></activity>
+        <activity
+            android:name=".ForgetPassword"
+            android:theme="@style/Base.Theme.AppCompat.Light.Dialog.Alert" />
+        <activity android:name=".Arab.LoginAR" />
+        <activity
+            android:name=".Arab.ForgetPasswordAr"
+            android:theme="@style/Base.Theme.AppCompat.Light.Dialog.Alert" />
+        <activity android:name=".Arab.RegistrationAR"></activity>
     </application>
 
 </manifest>

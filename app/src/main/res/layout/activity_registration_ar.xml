@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    tools:context="com.wesoft_eg.myschool.myschool.Arab.RegistrationAR">
+
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:id="@+id/userName"
+        android:hint="اسم المستخدم "
+        android:padding="10dp"
+        android:lines="1"/>
+    <EditText
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/mail"
+        android:hint="البريد الالكترونى"
+        android:padding="10dp"
+        android:lines="1"/>
+
+    <EditText
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/mobileNumber"
+        android:hint="الهاتف"
+        android:padding="10dp"
+        android:lines="1"/>
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/password"
+        android:hint="رمز المرور"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:lines="1"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:id="@+id/cPassword"
+        android:hint="تأكيد رمز المرور"
+        android:padding="10dp"
+        android:layout_height="wrap_content"
+        android:lines="1"/>
+
+    <RadioGroup
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+        android:id="@+id/radio_groub"
+        android:layout_gravity="right"
+        android:gravity="right"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/dad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="اب"
+            android:onClick="onRadioButtonClicked"/>
+        <RadioButton
+            android:id="@+id/mom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onRadioButtonClicked"
+            android:text="ام" />
+    </RadioGroup>
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="انشاء حساب"
+        android:onClick="signUp"
+        android:padding="10dp"/>
+</LinearLayout>

@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:loginView="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="10dp"
-    tools:context="com.wesoft_eg.myschool.myschool.Login">
-
+    tools:context="com.wesoft_eg.myschool.myschool.Arab.LoginAR">
 
 
     <ScrollView
@@ -25,10 +23,8 @@
                 android:layout_width="wrap_content"
                 android:layout_gravity="right"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
                 android:padding="5dp"
-                android:text="AR"
+                android:text="En"
                 android:onClick="changeLanguage"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -54,6 +50,7 @@
                     android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="right"
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/imageView"
                     android:layout_weight="1"
@@ -62,7 +59,7 @@
                     android:paddingTop="15dp"
                     android:paddingBottom="15dp"
                     android:onClick="forgetPassowrd"
-                    android:text="@string/fpass"
+                    android:text="@string/arfpass"
                     android:textColor="@android:color/black"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -81,21 +78,18 @@
                     android:layout_margin="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Entre Your Email"
+                    android:hint="ادخل البريد الالكترونى"
                     android:padding="5dp"
                     />
-
                 <EditText
                     android:id="@+id/pass"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Enter Your Password"
+                    android:hint="ادخل كلمه المرور"
                     android:padding="5dp"
                     android:layout_margin="5dp"
-
                     />
-
                 <Button
                     android:id="@+id/login"
                     android:layout_width="match_parent"
@@ -105,10 +99,9 @@
                     android:layout_weight="1"
                     android:background="@android:color/black"
                     android:onClick="Login"
-                    android:text="Login"
+                    android:text="تسجيل الدخول"
                     android:textAllCaps="false"
                     android:textColor="#fff" />
-
 
                 <Button
                     android:id="@+id/guest"
@@ -117,7 +110,7 @@
                     android:layout_height="wrap_content"
                     android:layout_above="@+id/reg"
                     android:onClick="guest"
-                    android:text="Guest"
+                    android:text="زائر "
                     android:textAllCaps="false" />
                 <Button
                     android:id="@+id/reg"
@@ -125,13 +118,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:onClick="register"
-                    android:text="Register"
+                    android:text="انشاء حساب"
                     android:textAllCaps="false" />
 
                 <com.facebook.login.widget.LoginButton
                     xmlns:facebook="http://schemas.android.com/apk/res-auto"
-                    facebook:com_facebook_login_text="LogIn"
-                    facebook:com_facebook_logout_text = "LogOut"
+                    facebook:com_facebook_login_text="تسجيل الدخول"
+                    facebook:com_facebook_logout_text = "تسجيل الخروج"
                     android:id="@+id/login_button"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -144,6 +137,8 @@
 
         </LinearLayout>
     </ScrollView>
+
+
 
 
 

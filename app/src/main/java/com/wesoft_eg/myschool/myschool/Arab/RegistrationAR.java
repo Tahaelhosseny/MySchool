@@ -1,4 +1,4 @@
-package com.wesoft_eg.myschool.myschool;
+package com.wesoft_eg.myschool.myschool.Arab;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -13,6 +13,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.wesoft_eg.myschool.myschool.Login;
+import com.wesoft_eg.myschool.myschool.MainActivity;
+import com.wesoft_eg.myschool.myschool.R;
 import com.wesoft_eg.myschool.myschool.netHelper.MakeRequest;
 import com.wesoft_eg.myschool.myschool.netHelper.VolleyCallback;
 
@@ -22,9 +25,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Registration extends AppCompatActivity
+public class RegistrationAR extends AppCompatActivity
 {
-
 
     EditText userName;
     EditText phone ;
@@ -48,15 +50,14 @@ public class Registration extends AppCompatActivity
     ProgressDialog mProgressDialog;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registration);
-
+        setContentView(R.layout.activity_registration_ar);
         init();
     }
-
 
     void init()
     {
@@ -77,8 +78,8 @@ public class Registration extends AppCompatActivity
 
 
         mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setTitle("Register");
-        mProgressDialog.setMessage("we are happy that you are register with us");
+        mProgressDialog.setTitle("تسجيل البينات");
+        mProgressDialog.setMessage("سعدنا بوجودك معنا");
         mProgressDialog.setCanceledOnTouchOutside(false);
 
 
@@ -108,90 +109,90 @@ public class Registration extends AppCompatActivity
 
         if(str_userName.isEmpty())
         {
-            userName.setError("this should not be empty");
-           --i;
+            userName.setError("هذا حقل فارغ ");
+            --i;
         }
         if(!isValidEmail(str_mail))
         {
-            mail.setError("this is not valid mail");
+            mail.setError("اعد كتابه البريد الالكترونى بشكل صحيح");
             --i;
         }
 
         if(!validCellPhone(str_phone))
         {
-            phone.setError("this is not valid phone number");
+            phone.setError("رقم هاتف غير صحيح");
             --i;
 
         }
 
         if(str_password.isEmpty())
         {
-            passwoed.setError("this filed should nut be empty");
+            passwoed.setError("هذا حقل فارغ ");
             --i;
 
 
         }
         if(str_password.length()<6)
         {
-            passwoed.setError("this filled should be more than 6 characters ");
+            passwoed.setError("هذا الحقل يجب ان يحتوى اكثر نم 6 رموز ");
             --i;
         }
         if(str_cPasssowrd.length()<6)
         {
-            cPassword.setError("this filled should be more than 6 characters ");
+            cPassword.setError("هذا الحقل يجب ان يحتوى اكثر نم 6 رموز");
             --i;
         }
         if (str_cPasssowrd.isEmpty())
         {
-            cPassword.setError("this filed should nut be empty");
+            cPassword.setError("هذا حقل فارغ");
             --i;
 
         }
 
         if(!str_cPasssowrd.equals(str_password))
         {
-            passwoed.setError( "Password Not Matches");
-            cPassword.setError("Password Not Matches");
+            passwoed.setError( "كلمتا المرور لا تنطبقان");
+            cPassword.setError("كلمتا المرور لا تنطبقان");
             --i;
 
         }
 
         if(i==8)
+        {
+            //{"Email": "eng.abbasmohamed14@gmail.com" , "Password":"P@ssw0rd1" , "ConfirmPassword":"P@ssw0rd1" , "RealName": "Full Stack Developer", "PhoneNumber":"41878","Gender":true}
+
+            Map<String , String> params = new HashMap<String, String>();
+
+            params.put("RealName", str_userName);
+            params.put("Email",str_mail);
+            params.put("PhoneNumber",str_phone);
+            params.put("Password",str_password);
+            params.put("ConfirmPassword",str_cPasssowrd);
+            params.put( "Gender",str_parent);
+
+            MakeRequest makeRequest = new MakeRequest("/api/Account/Register" , "1" ,params , this);
+
+
+            makeRequest.request( new VolleyCallback()
             {
-                //{"Email": "eng.abbasmohamed14@gmail.com" , "Password":"P@ssw0rd1" , "ConfirmPassword":"P@ssw0rd1" , "RealName": "Full Stack Developer", "PhoneNumber":"41878","Gender":true}
-
-                Map<String , String> params = new HashMap<String, String>();
-
-                params.put("RealName", str_userName);
-                params.put("Email",str_mail);
-                params.put("PhoneNumber",str_phone);
-                params.put("Password",str_password);
-                params.put("ConfirmPassword",str_cPasssowrd);
-                params.put( "Gender",str_parent);
-
-                MakeRequest makeRequest = new MakeRequest("/api/Account/Register" , "1" ,params , this);
-
-
-                makeRequest.request( new VolleyCallback()
+                @Override
+                public void onSuccess(Map<String, String> result)
                 {
-                    @Override
-                    public void onSuccess(Map<String, String> result)
+                    mProgressDialog.dismiss();
+
+                    Log.e("rrrrrrrr" , result.get("res"));
+                    if(result.get("status").toString().contains("ok"))
                     {
-                        mProgressDialog.dismiss();
-
-                        Log.e("rrrrrrrr" , result.get("res"));
-               if(result.get("status").toString().contains("ok"))
-                        {
-                            Toast.makeText(getApplicationContext() ,result.get("res").toString(),Toast.LENGTH_SHORT).show();
-                            login();
-                }
-                else
-                    Toast.makeText(getApplicationContext() ,"something go wrong try again",Toast.LENGTH_SHORT).show();
-
+                        Toast.makeText(getApplicationContext() ,result.get("res").toString(),Toast.LENGTH_SHORT).show();
+                        login();
                     }
-                });
+                    else
+                        Toast.makeText(getApplicationContext() ,"هنالك شئ غير صحيح من فضلك اعد المحاوله",Toast.LENGTH_SHORT).show();
 
-            }
+                }
+            });
+
+        }
 
         //{"RealName": "Taha El-Husseiny" , "Email":"taha.elssien01y@gmail.com" ,"PhoneNumber":"01095522403" ,"Password":"P@ssw0rd","ConfirmPassword":"P@ssw0rd" , "Gender":true }
 
@@ -246,7 +247,7 @@ public class Registration extends AppCompatActivity
                     } catch (JSONException e)
                     {
                         e.printStackTrace();
-                        Toast.makeText(getApplicationContext() , "try to login " , Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext() , "اعد تسجيل الدخول مره اخرى " , Toast.LENGTH_LONG).show();
                         startActivity(new Intent(getApplicationContext() , Login.class));
 
                     }
@@ -254,7 +255,7 @@ public class Registration extends AppCompatActivity
 
                 }
                 else
-                    Toast.makeText(getApplicationContext() ,"something go wrong try again",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext() ,"هنالك شئ غير صحيح من فضلك اعد المحاوله",Toast.LENGTH_SHORT).show();
 
             }
         });

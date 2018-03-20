@@ -1,6 +1,5 @@
-package com.wesoft_eg.myschool.myschool;
+package com.wesoft_eg.myschool.myschool.Arab;
 
-import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -10,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -20,7 +18,9 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.wesoft_eg.myschool.myschool.Arab.LoginAR;
+import com.wesoft_eg.myschool.myschool.Login;
+import com.wesoft_eg.myschool.myschool.MainActivity;
+import com.wesoft_eg.myschool.myschool.R;
 import com.wesoft_eg.myschool.myschool.netHelper.MakeRequest;
 import com.wesoft_eg.myschool.myschool.netHelper.VolleyCallback;
 
@@ -31,7 +31,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Login extends Activity
+public class LoginAR extends AppCompatActivity
 {
 
 
@@ -55,15 +55,16 @@ public class Login extends Activity
 
     String access_token="";
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login_ar);
 
         init();
     }
-
 
 
 
@@ -83,7 +84,7 @@ public class Login extends Activity
         mProgressDialog.setTitle("Logon in");
         mProgressDialog.setMessage("we are happy that you are with us");
         mProgressDialog.setCanceledOnTouchOutside(false);
-        SharedPreferences sharedPrefv =getSharedPreferences("com.wesoft_eg.myschool.myschool",Context.MODE_PRIVATE);
+        SharedPreferences sharedPrefv =getSharedPreferences("com.wesoft_eg.myschool.myschool", Context.MODE_PRIVATE);
         access_token = sharedPrefv.getString("access_token" , null) ;
 
         boolean loggedIn = AccessToken.getCurrentAccessToken() == null;
@@ -144,7 +145,7 @@ public class Login extends Activity
         mProgressDialog.show();
         str_email = email.getText().toString();
         str_password = password.getText().toString();
-        Map<String, String>  params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<String, String>();
         params.put("grant_type","password");
         params.put("username", str_email);   //"Admin@Admin.com"
         params.put("password", str_password);    //"Password#1"
@@ -189,6 +190,14 @@ public class Login extends Activity
 
     }
 
+
+    public void forgetPassowrd(View view)
+    {
+        startActivity(new Intent(getApplicationContext() , ForgetPasswordAr.class));
+
+    }
+
+
     public void guest(View view)
     {
         startActivity(new Intent(getApplicationContext() , MainActivity.class));
@@ -196,17 +205,12 @@ public class Login extends Activity
 
     public void register(View view)
     {
-        startActivity(new Intent(getApplicationContext() , Registration.class));
-    }
-
-    public void forgetPassowrd(View view)
-    {
-        startActivity(new Intent(getApplicationContext(),ForgetPassword.class));
-
+        startActivity(new Intent(getApplicationContext() , RegistrationAR.class));
     }
 
     public void changeLanguage(View view)
     {
-        startActivity(new Intent(getApplicationContext() , LoginAR.class));
+        startActivity(new Intent(getApplicationContext() , Login.class));
+
     }
 }

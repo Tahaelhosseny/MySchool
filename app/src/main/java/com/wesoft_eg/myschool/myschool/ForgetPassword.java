@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -34,42 +35,52 @@ public class ForgetPassword extends Activity
     public void forgetPassowrd(View view)
     {
         Email = editText.getText().toString() ;
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("Email", Email);   //"Admin@Admin.com"
-        MakeRequest makeRequest = new MakeRequest("/api/Account/ForgetPassword" , "1" ,params , this);
-
-        makeRequest.request( new VolleyCallback()
+        if(isValidEmail(Email))
         {
-            @Override
-            public void onSuccess(Map<String, String> result)
-            {
-                if(result.get("status").toString().contains("ok"))
-                {
+            Toast.makeText(getApplicationContext() , "Not Valid Mail" , Toast.LENGTH_LONG).show();
+        }
+        else {
 
-                    String token = result.get("res").toString();
-                    try {
-                        JSONObject jsonObject = new JSONObject(token);
-                        String status = jsonObject.get("Status").toString();
-                        if(status.equals("Ok"))
-                        {
-                            Toast.makeText(getApplicationContext(), jsonObject.get("Message").toString(), Toast.LENGTH_LONG).show();
-                            finish();
+            Map<String, String> params = new HashMap<String, String>();
+            params.put("Email", Email);   //"Admin@Admin.com"
+            MakeRequest makeRequest = new MakeRequest("/api/Account/ForgetPassword", "1", params, this);
+
+            makeRequest.request(new VolleyCallback() {
+                @Override
+                public void onSuccess(Map<String, String> result) {
+                    if (result.get("status").toString().contains("ok")) {
+
+                        String token = result.get("res").toString();
+                        try {
+                            JSONObject jsonObject = new JSONObject(token);
+                            String status = jsonObject.get("Status").toString();
+                            if (status.equals("Ok")) {
+                                Toast.makeText(getApplicationContext(), jsonObject.get("Message").toString(), Toast.LENGTH_LONG).show();
+                                finish();
+                            } else if (status.equals("No")) {
+                                Toast.makeText(getApplicationContext(), jsonObject.get("Message").toString(), Toast.LENGTH_LONG).show();
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                        else if (status.equals("No"))
-                        {
-                            Toast.makeText(getApplicationContext(), jsonObject.get("Message").toString(), Toast.LENGTH_LONG).show();
-                        }
 
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    } else
+                        Toast.makeText(getApplicationContext(), "something go wrong try again", Toast.LENGTH_SHORT).show();
 
                 }
-                else
-                    Toast.makeText(getApplicationContext() ,"something go wrong try again",Toast.LENGTH_SHORT).show();
+            });
+        }
+    }
 
-            }
-        });
+
+    public final static boolean isValidEmail(CharSequence target)
+    {
+        if (TextUtils.isEmpty(target)) {
+            return false;
+        } else {
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
     }
 }
