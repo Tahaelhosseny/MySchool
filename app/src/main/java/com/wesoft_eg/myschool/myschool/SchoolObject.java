@@ -8,9 +8,6 @@ public class SchoolObject
 {
     String schoolId;
     String Title;
-    String TitleAr;
-    String CategoryId;
-    String SubcategoryId;
     String IsSchool;
     String Rate;
     String Priority;
@@ -18,21 +15,13 @@ public class SchoolObject
     String Long;
 
     String markerId;
-
     String CategoryTitleAr;
     String SubCategoryTitleAr ;
-
-
     String CategoryTitle ;
     String SubCategoryTitle;
-
-
     public SchoolObject(String schoolId, String title, String titleAr, String categoryId, String subcategoryId, String isSchool, String rate, String priority, String lat, String aLong, String markerId, String categoryTitleAr, String subCategoryTitleAr, String categoryTitle, String subCategoryTitle) {
         this.schoolId = schoolId;
         this.Title = title;
-        this.TitleAr = titleAr;
-        this.CategoryId = categoryId;
-        this.SubcategoryId = subcategoryId;
         this.IsSchool = isSchool;
         this.Rate = rate;
         this.Priority = priority;
@@ -46,26 +35,12 @@ public class SchoolObject
     }
 
 
-    //arab
-    public SchoolObject(String schoolId, String titleAr, String isSchool, String rate, String priority, String lat, String aLong, String categoryTitleAr, String subCategoryTitleAr , String arab)
-    {
-        this.schoolId = schoolId;
-        this.TitleAr = titleAr;
-        this.IsSchool = isSchool;
-        this.Rate = rate;
-        this.Priority = priority;
-        this.Lat = lat;
-        this.Long = aLong;
-        this.CategoryTitleAr = categoryTitleAr;
-        this.SubCategoryTitleAr = subCategoryTitleAr;
-    }
-
 
     //eng
     public SchoolObject(String schoolId, String titleAr, String isSchool, String rate, String priority, String lat, String aLong, String CategoryTitle, String SubCategoryTitle )
     {
         this.schoolId = schoolId;
-        this.TitleAr = titleAr;
+        this.Title = titleAr;
         this.IsSchool = isSchool;
         this.Rate = rate;
         this.Priority = priority;
@@ -74,8 +49,6 @@ public class SchoolObject
         this.CategoryTitleAr =CategoryTitle ;
         this.SubCategoryTitleAr = SubCategoryTitle;
     }
-
-
 
 
     public String getMarkerId() {
@@ -146,36 +119,6 @@ public class SchoolObject
     public void setTitle(String title)
     {
         Title = title;
-    }
-
-    public String getTitleAr()
-    {
-        return TitleAr;
-    }
-
-    public void setTitleAr(String titleAr)
-    {
-        TitleAr = titleAr;
-    }
-
-    public String getCategoryId()
-    {
-        return CategoryId;
-    }
-
-    public void setCategoryId(String categoryId)
-    {
-        CategoryId = categoryId;
-    }
-
-    public String getSubcategoryId()
-    {
-        return SubcategoryId;
-    }
-
-    public void setSubcategoryId(String subcategoryId)
-    {
-        SubcategoryId = subcategoryId;
     }
 
     public String getIsSchool()

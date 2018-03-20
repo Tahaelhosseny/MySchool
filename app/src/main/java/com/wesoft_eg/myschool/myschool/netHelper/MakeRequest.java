@@ -78,8 +78,6 @@ public class MakeRequest
             {
                 Responce.put("status" , "ok");
                 Responce.put("res" , response);
-                Log.e("fffffffffffffffff",response);
-
                 callback.onSuccess(Responce);
         }
         }, new Response.ErrorListener()

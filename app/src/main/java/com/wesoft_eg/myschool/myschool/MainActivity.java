@@ -356,7 +356,9 @@ public class MainActivity extends AppCompatActivity
 
     private void parceData(Map<String, String> result)
     {
-        Object responce = result.get("res").toString();
+        String responce = result.get("res").toString();
+        Log.e("fffffffffffffffff",responce);
+
         try {
 
             JSONObject jsonObject = new JSONObject(responce.toString());
@@ -369,7 +371,7 @@ public class MainActivity extends AppCompatActivity
                 JSONObject jsonObject1 = schoolJsonArray1.getJSONObject(i);
                // SchoolObject schoolObject = new SchoolObject(jsonObject1.getString("schoolId"),jsonObject1.getString("Title"),jsonObject1.getString("TitleAr"),jsonObject1.getString("CategoryId"),jsonObject1.getString("SubcategoryId"),jsonObject1.getString("IsSchool"),jsonObject1.getString("Rate"),jsonObject1.getString("Priority"),jsonObject1.getString("Lat"),jsonObject1.getString("Long"));
 //              (schoolId,  titleAr,  isSchool,  rate,  priority,  lat,  aLong,  CategoryTitle,  SubCategoryTitle )
-                SchoolObject schoolObject = new SchoolObject(jsonObject1.getString("schoolId"),jsonObject1.getString("title"),jsonObject1.getString("IsSchool"),jsonObject1.getString("Rate"),jsonObject1.getString("Priority"),jsonObject1.getString("Lat"),jsonObject1.getString("Long") ,jsonObject1.getString("CategoryTitle"),jsonObject1.getString("SubCategoryTitle"));
+                SchoolObject schoolObject = new SchoolObject(jsonObject1.getString("schoolId").toString(),jsonObject1.getString("Title").toString(),jsonObject1.getString("IsSchool").toString(),jsonObject1.getString("Rate").toString(),jsonObject1.getString("Priority").toString(),jsonObject1.getString("Lat").toString(),jsonObject1.getString("Long").toString() ,jsonObject1.getString("CategoryTitle").toString(),jsonObject1.getString("SubCategoryTitle").toString());
                 schoolList.add(schoolObject);
             }
             String kids = jsonObject.getString("kidsCenters");
@@ -379,7 +381,7 @@ public class MainActivity extends AppCompatActivity
             for (int i=0 ; i < kidsJsonArray1.length() ; i++)
             {
                 JSONObject jsonObject1 = kidsJsonArray1.getJSONObject(i);
-                SchoolObject kidslObject = new SchoolObject(jsonObject1.getString("KidsCenterId"),jsonObject1.getString("title"),jsonObject1.getString("IsSchool"),jsonObject1.getString("Rate"),jsonObject1.getString("Priority"),jsonObject1.getString("Lat"),jsonObject1.getString("Long") ,jsonObject1.getString("CategoryTitle"),jsonObject1.getString("SubCategoryTitle"));
+                SchoolObject kidslObject = new SchoolObject(jsonObject1.getString("KidsCenterId").toString(),jsonObject1.getString("Title").toString(),jsonObject1.getString("IsSchool").toString(),jsonObject1.getString("Rate").toString(),jsonObject1.getString("Priority").toString(),jsonObject1.getString("Lat").toString(),jsonObject1.getString("Long").toString() ,jsonObject1.getString("CategoryTitle").toString(),jsonObject1.getString("SubCategoryTitle").toString());
                 schoolList.add(kidslObject);
             }
 
@@ -402,7 +404,7 @@ public class MainActivity extends AppCompatActivity
 
         for (int i = 0 ; i < schoolList.size();i++)
         {
-            if(schoolList.get(i).getIsSchool().equals("true"))
+            if(schoolList.get(i).getIsSchool().equals("True"))
             {
                 schoolLatLang = new LatLng(Double.valueOf(schoolList.get(i).getLat()), Double.valueOf(schoolList.get(i).getLong()));
                 schoolMarkerOptions = new MarkerOptions().position(schoolLatLang).icon(BitmapDescriptorFactory.fromResource(R.mipmap.school)).title(schoolList.get(i).getTitle());

@@ -201,6 +201,7 @@ public class LoginAR extends AppCompatActivity
     public void guest(View view)
     {
         startActivity(new Intent(getApplicationContext() , MainActivity.class));
+        finish();
     }
 
     public void register(View view)
