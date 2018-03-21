@@ -1,5 +1,6 @@
 package com.wesoft_eg.myschool.myschool.Arab;
 
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -18,9 +19,11 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.wesoft_eg.myschool.myschool.ForgetPassword;
 import com.wesoft_eg.myschool.myschool.Login;
 import com.wesoft_eg.myschool.myschool.MainActivity;
 import com.wesoft_eg.myschool.myschool.R;
+import com.wesoft_eg.myschool.myschool.Registration;
 import com.wesoft_eg.myschool.myschool.netHelper.MakeRequest;
 import com.wesoft_eg.myschool.myschool.netHelper.VolleyCallback;
 
@@ -29,9 +32,10 @@ import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
-public class LoginAR extends AppCompatActivity
+public class LoginAR extends Activity
 {
 
 
@@ -55,6 +59,7 @@ public class LoginAR extends AppCompatActivity
 
     String access_token="";
 
+    String lang = "1"; //"0" for eng 1 for arabic
 
 
     @Override
@@ -63,9 +68,10 @@ public class LoginAR extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_ar);
 
+        lang ="1" ;
+
         init();
     }
-
 
 
     private void init()
@@ -75,31 +81,48 @@ public class LoginAR extends AppCompatActivity
         loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.setReadPermissions(Arrays.asList(EMAIL));
         // If you are using in a fragment, call loginButton.setFragment(this);
-
-
         email = (EditText) findViewById(R.id.email) ;
         password = (EditText) findViewById(R.id.pass);
-
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setTitle("Logon in");
         mProgressDialog.setMessage("we are happy that you are with us");
         mProgressDialog.setCanceledOnTouchOutside(false);
         SharedPreferences sharedPrefv =getSharedPreferences("com.wesoft_eg.myschool.myschool", Context.MODE_PRIVATE);
         access_token = sharedPrefv.getString("access_token" , null) ;
-
         boolean loggedIn = AccessToken.getCurrentAccessToken() == null;
+
+        getLang();
+
 
         if(!loggedIn)
         {
-            ActivityOptions options = ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.down_to_up, R.anim.down_to_up);
-            Intent intent =new Intent(getApplicationContext() , MainActivity.class);
-            startActivity(intent ,options.toBundle());
-            finish();
+            if(lang.equals("0"))
+            {
+                Intent intent =new Intent(getApplicationContext() , MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+            else
+                {
+                    Intent intent =new Intent(getApplicationContext() , MainActivityAR.class);
+                    startActivity(intent);
+                    finish();
+                }
         }
         else if(access_token != null)
         {
-            startActivity(new Intent(getApplicationContext() , MainActivity.class));
-            finish();
+            if(lang.equals("0"))
+            {
+                Intent intent =new Intent(getApplicationContext() , MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+            else
+            {
+                Intent intent =new Intent(getApplicationContext() , MainActivityAR.class);
+                startActivity(intent);
+                finish();
+            }
         }
 
 
@@ -111,8 +134,18 @@ public class LoginAR extends AppCompatActivity
             @Override
             public void onSuccess(LoginResult loginResult)
             {
-                startActivity(new Intent(getApplicationContext() , MainActivity.class));
-                finish();
+                if(lang.equals("0"))
+                {
+                    Intent intent =new Intent(getApplicationContext() , MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else
+                {
+                    Intent intent =new Intent(getApplicationContext() , MainActivityAR.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
 
             @Override
@@ -166,14 +199,35 @@ public class LoginAR extends AppCompatActivity
                         SharedPreferences.Editor editor = getSharedPreferences("com.wesoft_eg.myschool.myschool", MODE_PRIVATE).edit();
                         editor.putString("access_token", jsonObject.getString("access_token"));
                         editor.apply();
-                        startActivity(new Intent(getApplicationContext() , MainActivity.class));
-                        finish();
+                        if(lang.equals("0"))
+                        {
+                            Intent intent =new Intent(getApplicationContext() , MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                        else
+                        {
+                            Intent intent =new Intent(getApplicationContext() , MainActivityAR.class);
+                            startActivity(intent);
+                            finish();
+                        }
 
 
                     } catch (JSONException e)
                     {
                         Toast.makeText(getApplicationContext() , "try to login " , Toast.LENGTH_LONG).show();
-                        startActivity(new Intent(getApplicationContext() , Login.class));
+                        if(lang.equals("0"))
+                        {
+                            Intent intent =new Intent(getApplicationContext() , Login.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                        else
+                        {
+                            Intent intent =new Intent(getApplicationContext() , LoginAR.class);
+                            startActivity(intent);
+                            finish();
+                        }
                         e.printStackTrace();
                     }
 
@@ -193,25 +247,99 @@ public class LoginAR extends AppCompatActivity
 
     public void forgetPassowrd(View view)
     {
-        startActivity(new Intent(getApplicationContext() , ForgetPasswordAr.class));
+        if(lang.equals("0"))
+        {
+            Intent intent =new Intent(getApplicationContext() , ForgetPassword.class);
+            startActivity(intent);
+            finish();
+        }
+        else
+        {
+            Intent intent =new Intent(getApplicationContext() , ForgetPasswordAr.class);
+            startActivity(intent);
+            finish();
+        }
 
     }
 
 
     public void guest(View view)
     {
-        startActivity(new Intent(getApplicationContext() , MainActivity.class));
-        finish();
+        if(lang.equals("0"))
+        {
+            Intent intent =new Intent(getApplicationContext() , MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        else
+        {
+            Intent intent =new Intent(getApplicationContext() , MainActivityAR.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     public void register(View view)
     {
-        startActivity(new Intent(getApplicationContext() , RegistrationAR.class));
-    }
+        if(lang.equals("0"))
+        {
+            Intent intent =new Intent(getApplicationContext() , Registration.class);
+            startActivity(intent);
+            finish();
+        }
+        else
+        {
+            Intent intent =new Intent(getApplicationContext() , RegistrationAR.class);
+            startActivity(intent);
+            finish();
+        }    }
 
     public void changeLanguage(View view)
     {
-        startActivity(new Intent(getApplicationContext() , Login.class));
+
+        if(lang.equals("0"))
+        {
+            SharedPreferences.Editor editor = getSharedPreferences("com.wesoft_eg.myschool.myschool", MODE_PRIVATE).edit();
+            editor.putString("lang","1" );
+            editor.apply();
+            lang = "1";
+            startActivity(new Intent(getApplicationContext() , LoginAR.class));
+            finish();
+        }
+
+       else if(lang.equals("1"))
+        {
+            SharedPreferences.Editor editor = getSharedPreferences("com.wesoft_eg.myschool.myschool", MODE_PRIVATE).edit();
+            editor.putString("lang","0" );
+            editor.apply();
+            lang = "0";
+            startActivity(new Intent(getApplicationContext() , Login.class));
+            finish();
+
+
+        }
+
 
     }
+
+
+    public void getLang()
+    {
+        if (lang == null)
+        {
+            if (Locale.getDefault().getDisplayLanguage().toString().equals("English"))
+            {
+                    SharedPreferences.Editor editor = getSharedPreferences("com.wesoft_eg.myschool.myschool", MODE_PRIVATE).edit();
+                    editor.putString("lang", "0");
+                    editor.apply();
+            } else {
+                        SharedPreferences.Editor editor = getSharedPreferences("com.wesoft_eg.myschool.myschool", MODE_PRIVATE).edit();
+                        editor.putString("lang", "1");
+                        editor.apply();
+                  }
+        }
+
+
+    }
+
 }

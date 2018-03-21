@@ -64,8 +64,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".Registration" />
+        <activity android:name=".Registration" />
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
@@ -87,7 +86,21 @@
         <activity
             android:name=".Arab.ForgetPasswordAr"
             android:theme="@style/Base.Theme.AppCompat.Light.Dialog.Alert" />
-        <activity android:name=".Arab.RegistrationAR"></activity>
+        <activity android:name=".Arab.RegistrationAR" />
+        <activity
+            android:name=".Arab.MainActivityAR"
+            android:label="@string/title_activity_main_ar"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value="com.example.ExampleActivity" />
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
     </application>
 
 </manifest>

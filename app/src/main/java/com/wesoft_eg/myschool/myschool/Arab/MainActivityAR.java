@@ -1,27 +1,26 @@
-package com.wesoft_eg.myschool.myschool;
+package com.wesoft_eg.myschool.myschool.Arab;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.widget.SearchView;
-import android.util.Log;
-import android.view.View;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
+import android.view.View;
 import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +39,10 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.wesoft_eg.myschool.myschool.Filter;
+import com.wesoft_eg.myschool.myschool.R;
+import com.wesoft_eg.myschool.myschool.SchoolInfo;
+import com.wesoft_eg.myschool.myschool.SchoolObject;
 import com.wesoft_eg.myschool.myschool.netHelper.MakeRequest;
 import com.wesoft_eg.myschool.myschool.netHelper.VolleyCallback;
 
@@ -49,12 +52,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener ,OnMapReadyCallback , LocationListener , GoogleApiClient.ConnectionCallbacks ,GoogleApiClient.OnConnectionFailedListener{
-
+public class MainActivityAR extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener ,OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks ,GoogleApiClient.OnConnectionFailedListener
+{
 
     private GoogleMap mMap;
     SupportMapFragment mapFragment ;
@@ -73,27 +74,22 @@ public class MainActivity extends AppCompatActivity
 
     String access_token = "";
 
-
-
-
-    Spinner country ;
-    Spinner city ;
-    Spinner area ;
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        SharedPreferences sharedPrefv =getSharedPreferences("com.wesoft_eg.myschool.myschool",Context.MODE_PRIVATE);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        }
+        setContentView(R.layout.activity_main_ar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        SharedPreferences sharedPrefv =getSharedPreferences("com.wesoft_eg.myschool.myschool", Context.MODE_PRIVATE);
         access_token = sharedPrefv.getString("access_token" , null) ;
         Toast.makeText(getApplicationContext() , access_token ,Toast.LENGTH_LONG).show();
         init();
-    }
 
+    }
 
     private void init()
     {
@@ -112,10 +108,6 @@ public class MainActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        drawerMenuProp();
-
-
-
     }
 
 
@@ -133,25 +125,9 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu)
     {
         getMenuInflater().inflate(R.menu.main, menu);
-        MenuItem menuItem = menu.findItem(R.id.search);
 
-        SearchView searchView = (SearchView) menuItem.getActionView();
-        searchView.setQueryHint("Type something...");
 
-        int searchPlateId = searchView.getContext().getResources().getIdentifier("android:id/search_plate", null, null);
-        View searchPlate = searchView.findViewById(searchPlateId);
-        if (searchPlate!=null) {
-            searchPlate.setBackgroundColor(Color.DKGRAY);
-            int searchTextId = searchPlate.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
-            TextView searchText = (TextView) searchPlate.findViewById(searchTextId);
-            searchText.setBackgroundColor(Color.DKGRAY);
 
-            if (searchText!=null) {
-
-                searchText.setTextColor(Color.WHITE);
-                searchText.setHintTextColor(Color.WHITE);
-            }
-        }
 
         return true;
     }
@@ -306,7 +282,7 @@ public class MainActivity extends AppCompatActivity
                 if(result.get("status").toString().contains("ok"))
                 {
 
-                   parceData(result);
+                    parceData(result);
                 }
                 else
                     Toast.makeText(getApplicationContext() ,"something go wrong try again",Toast.LENGTH_SHORT).show();
@@ -382,7 +358,7 @@ public class MainActivity extends AppCompatActivity
             for (int i=0 ; i < schoolJsonArray1.length() ; i++)
             {
                 JSONObject jsonObject1 = schoolJsonArray1.getJSONObject(i);
-               // SchoolObject schoolObject = new SchoolObject(jsonObject1.getString("schoolId"),jsonObject1.getString("Title"),jsonObject1.getString("TitleAr"),jsonObject1.getString("CategoryId"),jsonObject1.getString("SubcategoryId"),jsonObject1.getString("IsSchool"),jsonObject1.getString("Rate"),jsonObject1.getString("Priority"),jsonObject1.getString("Lat"),jsonObject1.getString("Long"));
+                // SchoolObject schoolObject = new SchoolObject(jsonObject1.getString("schoolId"),jsonObject1.getString("Title"),jsonObject1.getString("TitleAr"),jsonObject1.getString("CategoryId"),jsonObject1.getString("SubcategoryId"),jsonObject1.getString("IsSchool"),jsonObject1.getString("Rate"),jsonObject1.getString("Priority"),jsonObject1.getString("Lat"),jsonObject1.getString("Long"));
 //              (schoolId,  titleAr,  isSchool,  rate,  priority,  lat,  aLong,  CategoryTitle,  SubCategoryTitle )
                 SchoolObject schoolObject = new SchoolObject(jsonObject1.getString("schoolId").toString(),jsonObject1.getString("Title").toString(),jsonObject1.getString("IsSchool").toString(),jsonObject1.getString("Rate").toString(),jsonObject1.getString("Priority").toString(),jsonObject1.getString("Lat").toString(),jsonObject1.getString("Long").toString() ,jsonObject1.getString("CategoryTitle").toString(),jsonObject1.getString("SubCategoryTitle").toString());
                 schoolList.add(schoolObject);
@@ -432,76 +408,4 @@ public class MainActivity extends AppCompatActivity
 
         }
     }
-
-
-
-    private void drawerMenuProp()
-    {
-        View view = navigationView.getHeaderView(0);
-
-
-        Button button = (Button) view.findViewById(R.id.serch);
-        country = (Spinner) view.findViewById(R.id.country);
-        ArrayAdapter<?> countryAdap = ArrayAdapter.createFromResource(this , R.array._Country , android.R.layout.simple_spinner_item );
-
-        countryAdap.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        country.setAdapter(countryAdap);
-
-
-
-        city = (Spinner) view.findViewById(R.id.city);
-        ArrayAdapter<?> cityAdap = ArrayAdapter.createFromResource(this , R.array.city , android.R.layout.simple_spinner_item );
-
-        cityAdap.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        city.setAdapter(cityAdap);
-
-        area = (Spinner) view.findViewById(R.id.area);
-        ArrayAdapter<?> areaAdap = ArrayAdapter.createFromResource(this , R.array.area , android.R.layout.simple_spinner_item );
-
-        areaAdap.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        area.setAdapter(areaAdap);
-
-        getCountry();
-
-
-        button.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                Toast.makeText(getApplicationContext() , "fffffffffffff" ,Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-
-    private void getCountry()
-    {
-        MakeRequest makeRequest = new MakeRequest("/api/Values/EngGetCountries" , "0" , this);
-
-        makeRequest.request( new VolleyCallback()
-        {
-            @Override
-            public void onSuccess(Map<String, String> result)
-            {
-                // mProgressDialog.dismiss();
-                if(result.get("status").toString().contains("ok"))
-                {
-
-                    Toast.makeText(getApplicationContext() ,result.get("res").toString(),Toast.LENGTH_SHORT).show();
-
-                    //startActivity(new Intent(getApplicationContext() , MainActivity.class));
-
-                }
-                else
-                    Toast.makeText(getApplicationContext() ,"something go wrong try again",Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-
-    }
-
 }
