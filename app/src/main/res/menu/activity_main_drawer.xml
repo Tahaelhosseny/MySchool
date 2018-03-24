@@ -3,4 +3,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/home"
+            android:title="Home" />
+
+        <item
+            android:id="@+id/contact"
+            android:title="Contact us" />
+        <item
+            android:id="@+id/about"
+            android:title="About" />
+        <item
+            android:id="@+id/sign_out"
+            android:title="Sign Out" />
+
+        <item
+            android:id="@+id/maccount"
+            android:title="My account" />
+    </group>
+
 </menu>

@@ -95,7 +95,7 @@ public class Registration extends AppCompatActivity
 
         int i = 8;
 
-        if(radioGroup.getCheckedRadioButtonId() == R.id.radio_ninjas)
+        if(radioGroup.getCheckedRadioButtonId() == R.id.mom)
             str_parent = "false" ;
         else
             str_parent = "true" ;

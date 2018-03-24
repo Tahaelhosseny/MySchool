@@ -54,7 +54,7 @@ public class MakeRequest
         requestQueue =Volley.newRequestQueue(context);
         cUrl = BaseUrl.concat(Sub_Url);
 
-        Log.e("hhhhhhhhhhhhhhh" , cUrl);
+        Log.e("kkkkkkkkkk" , cUrl);
 
     }
 

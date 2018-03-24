@@ -7,6 +7,11 @@
         android:title="@string/action_settings"
         app:showAsAction="never" />
     <item
+        android:id="@+id/lang"
+        android:orderInCategory="100"
+        android:title="change Lang"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/Logout"
         android:orderInCategory="100"
         android:title="LogOut"
@@ -22,9 +27,5 @@
         android:title="filter"
         android:icon="@drawable/filter"
         app:showAsAction="always"/>
-
-
-
-
 
 </menu>

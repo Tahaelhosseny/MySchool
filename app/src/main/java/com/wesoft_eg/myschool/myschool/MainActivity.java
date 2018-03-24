@@ -19,9 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +38,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.wesoft_eg.myschool.myschool.Arab.MainActivityAR;
 import com.wesoft_eg.myschool.myschool.netHelper.MakeRequest;
 import com.wesoft_eg.myschool.myschool.netHelper.VolleyCallback;
 
@@ -74,11 +73,7 @@ public class MainActivity extends AppCompatActivity
     String access_token = "";
 
 
-
-
-    Spinner country ;
-    Spinner city ;
-    Spinner area ;
+    Location mLocation ;
 
 
 
@@ -91,9 +86,16 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences sharedPrefv =getSharedPreferences("com.wesoft_eg.myschool.myschool",Context.MODE_PRIVATE);
         access_token = sharedPrefv.getString("access_token" , null) ;
         Toast.makeText(getApplicationContext() , access_token ,Toast.LENGTH_LONG).show();
-        init();
     }
 
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        init();
+
+    }
 
     private void init()
     {
@@ -111,10 +113,6 @@ public class MainActivity extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        drawerMenuProp();
-
-
 
     }
 
@@ -137,6 +135,8 @@ public class MainActivity extends AppCompatActivity
 
         SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.setQueryHint("Type something...");
+        searchView.setMaxWidth(50);
+        searchView.setIconified(true);
 
         int searchPlateId = searchView.getContext().getResources().getIdentifier("android:id/search_plate", null, null);
         View searchPlate = searchView.findViewById(searchPlateId);
@@ -178,6 +178,10 @@ public class MainActivity extends AppCompatActivity
         {
             logOut();
         }
+        else if(id == R.id.lang)
+        {
+            startActivity(new Intent(getApplicationContext(),MainActivityAR.class));
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -204,11 +208,27 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+
+        if (id == R.id.home)
+        {
+
+        } else if (id == R.id.contact)
+        {
+
+        } else if (id == R.id.about)
+        {
+
+        } else if (id == R.id.sign_out)
+        {
+
+        } else if (id == R.id.maccount)
+        {
+
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -226,11 +246,6 @@ public class MainActivity extends AppCompatActivity
         LatLng sydney = new LatLng(26.1377318, 50.5281543);
         mMap.addMarker(new MarkerOptions().position(sydney));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
-
-        request();
-
-
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(26.1377318, 50.5281543),12));
 
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter()
@@ -249,9 +264,6 @@ public class MainActivity extends AppCompatActivity
                 TextView title = (TextView) v.findViewById(R.id.tvTitle);
                 Button details = (Button) v.findViewById(R.id.btn_details);
                 title.setText(marker.getTitle());
-
-
-                //title.setText();
                 return v;
             }
         });
@@ -290,13 +302,13 @@ public class MainActivity extends AppCompatActivity
         buildGooGleApiClient();
     }
 
-    void request()
+    void request(String lat , String lang)
     {
         final Map<String, String> params = new HashMap<String, String>();
 
-        params.put("countryId", "2");
 
-        MakeRequest makeRequest = new MakeRequest("/api/Values/EngApplyFilters" , "1" ,params , this);
+        String link = "/api/Values/EngGPSLocationSearch?latitude=" + lat + "&longitude=" + lang ;
+        MakeRequest makeRequest = new MakeRequest(link , "0" ,params , this);
 
         makeRequest.request(new VolleyCallback()
         {
@@ -362,6 +374,12 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onLocationChanged(Location location)
     {
+        if(mLocation== null)
+        {
+            mLocation = location;
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()),12));
+            request(String.valueOf(mLocation.getLatitude()),String.valueOf(mLocation.getLongitude()));
+        }
 
     }
 
@@ -435,73 +453,5 @@ public class MainActivity extends AppCompatActivity
 
 
 
-    private void drawerMenuProp()
-    {
-        View view = navigationView.getHeaderView(0);
-
-
-        Button button = (Button) view.findViewById(R.id.serch);
-        country = (Spinner) view.findViewById(R.id.country);
-        ArrayAdapter<?> countryAdap = ArrayAdapter.createFromResource(this , R.array._Country , android.R.layout.simple_spinner_item );
-
-        countryAdap.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        country.setAdapter(countryAdap);
-
-
-
-        city = (Spinner) view.findViewById(R.id.city);
-        ArrayAdapter<?> cityAdap = ArrayAdapter.createFromResource(this , R.array.city , android.R.layout.simple_spinner_item );
-
-        cityAdap.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        city.setAdapter(cityAdap);
-
-        area = (Spinner) view.findViewById(R.id.area);
-        ArrayAdapter<?> areaAdap = ArrayAdapter.createFromResource(this , R.array.area , android.R.layout.simple_spinner_item );
-
-        areaAdap.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        area.setAdapter(areaAdap);
-
-        getCountry();
-
-
-        button.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                Toast.makeText(getApplicationContext() , "fffffffffffff" ,Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-
-    private void getCountry()
-    {
-        MakeRequest makeRequest = new MakeRequest("/api/Values/EngGetCountries" , "0" , this);
-
-        makeRequest.request( new VolleyCallback()
-        {
-            @Override
-            public void onSuccess(Map<String, String> result)
-            {
-                // mProgressDialog.dismiss();
-                if(result.get("status").toString().contains("ok"))
-                {
-
-                    Toast.makeText(getApplicationContext() ,result.get("res").toString(),Toast.LENGTH_SHORT).show();
-
-                    //startActivity(new Intent(getApplicationContext() , MainActivity.class));
-
-                }
-                else
-                    Toast.makeText(getApplicationContext() ,"something go wrong try again",Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-
-    }
 
 }

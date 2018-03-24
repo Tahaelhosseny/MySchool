@@ -40,6 +40,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.wesoft_eg.myschool.myschool.Filter;
+import com.wesoft_eg.myschool.myschool.MainActivity;
 import com.wesoft_eg.myschool.myschool.R;
 import com.wesoft_eg.myschool.myschool.SchoolInfo;
 import com.wesoft_eg.myschool.myschool.SchoolObject;
@@ -67,6 +68,7 @@ public class MainActivityAR extends AppCompatActivity implements NavigationView.
     GoogleApiClient mGoogleApiClient;
     LocationRequest locationRequest;
 
+    Location mLocation ;
 
 
     ArrayList<SchoolObject> schoolList = new ArrayList<SchoolObject>();
@@ -150,6 +152,10 @@ public class MainActivityAR extends AppCompatActivity implements NavigationView.
         {
             startActivity(new Intent(getApplicationContext(),Filter.class));
         }
+        else if(id == R.id.lang)
+        {
+            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+        }
         else if(id==R.id.Logout)
         {
             logOut();
@@ -180,11 +186,27 @@ public class MainActivityAR extends AppCompatActivity implements NavigationView.
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+
+        if (id == R.id.home)
+        {
+
+        } else if (id == R.id.contact)
+        {
+
+        } else if (id == R.id.about)
+        {
+
+        } else if (id == R.id.sign_out)
+        {
+
+        } else if (id == R.id.maccount)
+        {
+
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -202,9 +224,6 @@ public class MainActivityAR extends AppCompatActivity implements NavigationView.
         LatLng sydney = new LatLng(26.1377318, 50.5281543);
         mMap.addMarker(new MarkerOptions().position(sydney));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
-
-        request();
 
 
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(26.1377318, 50.5281543),12));
@@ -266,13 +285,13 @@ public class MainActivityAR extends AppCompatActivity implements NavigationView.
         buildGooGleApiClient();
     }
 
-    void request()
+    void request(String lat , String lang)
     {
         final Map<String, String> params = new HashMap<String, String>();
 
-        params.put("countryId", "2");
 
-        MakeRequest makeRequest = new MakeRequest("/api/Values/EngApplyFilters" , "1" ,params , this);
+        String link = "/api/Values/ArGPSLocationSearch?latitude=" + lat + "&longitude=" + lang ;
+        MakeRequest makeRequest = new MakeRequest(link , "0" ,params , this);
 
         makeRequest.request(new VolleyCallback()
         {
@@ -338,6 +357,12 @@ public class MainActivityAR extends AppCompatActivity implements NavigationView.
     @Override
     public void onLocationChanged(Location location)
     {
+        if(mLocation== null)
+        {
+            mLocation = location;
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()),12));
+            request(String.valueOf(mLocation.getLatitude()),String.valueOf(mLocation.getLongitude()));
+        }
 
     }
 
