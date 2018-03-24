@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -35,8 +36,7 @@ public class Filter extends AppCompatActivity
     Spinner area ;
     Spinner cat ;
     Spinner sub_Cat;
-
-
+    EditText search_name ;
 
     List<CountryModel> countryModels ;
     List<CityModel> cityModels ;
@@ -69,6 +69,7 @@ public class Filter extends AppCompatActivity
 
     private void init()
     {
+        search_name = (EditText) findViewById(R.id.search_name);
         country = (Spinner) findViewById(R.id.country);
         city = (Spinner) findViewById(R.id.city);
         area = (Spinner) findViewById(R.id.area);
@@ -182,9 +183,13 @@ public class Filter extends AppCompatActivity
                 if(radioGroup.getCheckedRadioButtonId() == R.id.school)
                 {
                     isSchool ="true";
-
+                    search_name.setHint("school name");
                 }
-                else  isSchool = "false";
+                else
+                {
+                    search_name.setHint("kg name");
+                    isSchool = "false";
+                }
                 get_cat();
 
             }
@@ -373,5 +378,28 @@ public class Filter extends AppCompatActivity
 
             }
         });
+    }
+
+
+
+    private void applyFilters()
+    {
+
+        String str_NameSearch = search_name.getText().toString();
+        String str_countryId =countryModels.get(5).getCountryId();
+        String str_cityId;
+        String str_isSchool;
+        String str_distirictId;
+        String str_categoryId;
+        String subCategoryId;
+
+        final Map<String, String> params = new HashMap<String, String>();
+        params.put("NameSearch",str_NameSearch);
+        params.put("countryId",str_countryId);
+        //params.put("cityId",str_cityId);
+        //params.put("distirictId",str_distirictId);
+        //params.put("isSchool",str_isSchool);
+        //params.put("categoryId",str_categoryId);
+        //params.put("subCategoryId",subCategoryId);
     }
 }

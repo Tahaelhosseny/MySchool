@@ -240,7 +240,6 @@ public class MainActivity extends AppCompatActivity
     {
 
 
-
         mMap = googleMap;
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(26.1377318, 50.5281543);
