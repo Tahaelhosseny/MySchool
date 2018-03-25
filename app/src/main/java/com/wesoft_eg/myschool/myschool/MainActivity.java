@@ -189,7 +189,6 @@ public class MainActivity extends AppCompatActivity
     private void logOut()
     {
         boolean loggedIn = AccessToken.getCurrentAccessToken() == null;
-
         if(!loggedIn)
         {
             LoginManager.getInstance().logOut();
@@ -238,6 +237,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onMapReady(GoogleMap googleMap)
     {
+
 
 
         mMap = googleMap;
@@ -401,7 +401,7 @@ public class MainActivity extends AppCompatActivity
                 JSONObject jsonObject1 = schoolJsonArray1.getJSONObject(i);
                // SchoolObject schoolObject = new SchoolObject(jsonObject1.getString("schoolId"),jsonObject1.getString("Title"),jsonObject1.getString("TitleAr"),jsonObject1.getString("CategoryId"),jsonObject1.getString("SubcategoryId"),jsonObject1.getString("IsSchool"),jsonObject1.getString("Rate"),jsonObject1.getString("Priority"),jsonObject1.getString("Lat"),jsonObject1.getString("Long"));
 //              (schoolId,  titleAr,  isSchool,  rate,  priority,  lat,  aLong,  CategoryTitle,  SubCategoryTitle )
-                SchoolObject schoolObject = new SchoolObject(jsonObject1.getString("schoolId").toString(),jsonObject1.getString("Title").toString(),jsonObject1.getString("IsSchool").toString(),jsonObject1.getString("Rate").toString(),jsonObject1.getString("Priority").toString(),jsonObject1.getString("Lat").toString(),jsonObject1.getString("Long").toString() ,jsonObject1.getString("CategoryTitle").toString(),jsonObject1.getString("SubCategoryTitle").toString());
+                SchoolObject schoolObject = new SchoolObject(jsonObject1.getString("Id").toString(),jsonObject1.getString("Title").toString(),jsonObject1.getString("IsSchool").toString(),jsonObject1.getString("Rate").toString(),jsonObject1.getString("Priority").toString(),jsonObject1.getString("Lat").toString(),jsonObject1.getString("Long").toString() ,jsonObject1.getString("CategoryTitle").toString(),jsonObject1.getString("SubCategoryTitle").toString());
                 schoolList.add(schoolObject);
             }
             String kids = jsonObject.getString("kidsCenters");
@@ -411,7 +411,7 @@ public class MainActivity extends AppCompatActivity
             for (int i=0 ; i < kidsJsonArray1.length() ; i++)
             {
                 JSONObject jsonObject1 = kidsJsonArray1.getJSONObject(i);
-                SchoolObject kidslObject = new SchoolObject(jsonObject1.getString("KidsCenterId").toString(),jsonObject1.getString("Title").toString(),jsonObject1.getString("IsSchool").toString(),jsonObject1.getString("Rate").toString(),jsonObject1.getString("Priority").toString(),jsonObject1.getString("Lat").toString(),jsonObject1.getString("Long").toString() ,jsonObject1.getString("CategoryTitle").toString(),jsonObject1.getString("SubCategoryTitle").toString());
+                SchoolObject kidslObject = new SchoolObject(jsonObject1.getString("Id").toString(),jsonObject1.getString("Title").toString(),jsonObject1.getString("IsSchool").toString(),jsonObject1.getString("Rate").toString(),jsonObject1.getString("Priority").toString(),jsonObject1.getString("Lat").toString(),jsonObject1.getString("Long").toString() ,jsonObject1.getString("CategoryTitle").toString(),jsonObject1.getString("SubCategoryTitle").toString());
                 schoolList.add(kidslObject);
             }
 
