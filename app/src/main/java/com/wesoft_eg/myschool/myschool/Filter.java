@@ -1,5 +1,6 @@
 package com.wesoft_eg.myschool.myschool;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -241,11 +242,7 @@ public class Filter extends AppCompatActivity
                 else if(radioGroup.getCheckedRadioButtonId() == R.id.all)
                 {
                     search_name.setHint("name");
-                    isSchool = null;
-                    try {
-                        params.remove(params);
-                    }catch (Exception e){}
-
+                    params.remove("isSchool");
                     l1.setVisibility(View.GONE);
                     l2.setVisibility(View.GONE);
                 }
@@ -444,7 +441,7 @@ public class Filter extends AppCompatActivity
 
     private void applyFilters()
     {
-        if(isSchool.equals("true"))
+        if(isSchool.equals("true")||isSchool.equals("false"))
             params.put("isSchool" , isSchool);
 
         str_NameSearch = search_name.getText().toString();
@@ -500,6 +497,11 @@ public class Filter extends AppCompatActivity
                     {
                         Toast.makeText(getApplicationContext(), result.get("res").toString(), Toast.LENGTH_SHORT).show();
 
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra("result", result.get("res").toString());
+                        setResult(5,returnIntent);
+                        finish();
+
                     } else
                         Toast.makeText(getApplicationContext(), "something go wrong try again", Toast.LENGTH_SHORT).show();
                 }
@@ -510,5 +512,7 @@ public class Filter extends AppCompatActivity
     public void filter(View view)
     {
         applyFilters();
+
+
     }
 }
