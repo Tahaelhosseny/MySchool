@@ -24,7 +24,6 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.common.ConnectionResult;
@@ -43,19 +42,15 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.wesoft_eg.myschool.myschool.Arab.MainActivityAR;
 import com.wesoft_eg.myschool.myschool.netHelper.MakeRequest;
 import com.wesoft_eg.myschool.myschool.netHelper.VolleyCallback;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener ,OnMapReadyCallback , LocationListener , GoogleApiClient.ConnectionCallbacks ,GoogleApiClient.OnConnectionFailedListener{
 
@@ -69,16 +64,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     GoogleApiClient mGoogleApiClient;
     LocationRequest locationRequest;
     ArrayList<SchoolObject> schoolList = new ArrayList<SchoolObject>();
-
     String currentCountryName ="";
-
     String access_token = "";
-
-
     Location mLocation ;
 
-
-    private  final static int FILTER_REQUEST_CODE = 123456 ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -185,6 +174,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else if(id == R.id.lang)
         {
             startActivity(new Intent(getApplicationContext(),MainActivityAR.class));
+            finish();
         }
 
         return super.onOptionsItemSelected(item);
@@ -336,8 +326,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-
-
     protected synchronized void buildGooGleApiClient()
     {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -403,8 +391,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void parceData(Map<String, String> result)
     {
         String responce = result.get("res").toString();
-        Log.e("fffffffffffffffff",responce);
-
+        schoolList.clear();
         try {
 
             JSONObject jsonObject = new JSONObject(responce.toString());
@@ -416,23 +403,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 for (int i=0 ; i < schoolJsonArray1.length() ; i++)
                 {
                     JSONObject jsonObject1 = schoolJsonArray1.getJSONObject(i);
-                    // SchoolObject schoolObject = new SchoolObject(jsonObject1.getString("schoolId"),jsonObject1.getString("Title"),jsonObject1.getString("TitleAr"),jsonObject1.getString("CategoryId"),jsonObject1.getString("SubcategoryId"),jsonObject1.getString("IsSchool"),jsonObject1.getString("Rate"),jsonObject1.getString("Priority"),jsonObject1.getString("Lat"),jsonObject1.getString("Long"));
-//              (schoolId,  titleAr,  isSchool,  rate,  priority,  lat,  aLong,  CategoryTitle,  SubCategoryTitle )
                     SchoolObject schoolObject = new SchoolObject(jsonObject1.getString("Id").toString(),jsonObject1.getString("Title").toString(),jsonObject1.getString("IsSchool").toString(),jsonObject1.getString("Rate").toString(),jsonObject1.getString("Priority").toString(),jsonObject1.getString("Lat").toString(),jsonObject1.getString("Long").toString() ,jsonObject1.getString("CategoryTitle").toString(),jsonObject1.getString("SubCategoryTitle").toString());
                     schoolList.add(schoolObject);
                 }
 
             }catch (Exception e) {}
 
-
             try
             {
                 String kids = jsonObject.getString("kidsCenters");
 
                 JSONArray kidsJsonArray1 = new JSONArray(kids);
-
-                Toast.makeText(getApplicationContext() , kidsJsonArray1.length() + "" , Toast.LENGTH_LONG ).show();
-
                 for (int i=0 ; i < kidsJsonArray1.length() ; i++)
                 {
                     JSONObject jsonObject1 = kidsJsonArray1.getJSONObject(i);
@@ -461,6 +442,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mMap.clear();
 
+
         for (int i = 0 ; i < schoolList.size();i++)
         {
             if(schoolList.get(i).getIsSchool().equals("True"))
@@ -484,15 +466,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
+        mLocation = new Location( "fff");
 
         if(requestCode == 5)
         {
-            String res = data.getStringExtra("result");
-            Toast.makeText(getApplicationContext() , res , Toast.LENGTH_LONG).show();
-            Map<String, String> result = new HashMap<>() ;
-            result.put("res" , res);
-            parceData(result);
-            }
+            try
+            {
+                String res = data.getStringExtra("result");
+                Map<String, String> result = new HashMap<>() ;
+                result.put("res" , res);
+                parceData(result);
+
+            }catch (Exception e){}
+
+        }
+
 
         }
 

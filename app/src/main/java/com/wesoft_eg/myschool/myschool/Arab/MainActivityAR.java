@@ -150,11 +150,12 @@ public class MainActivityAR extends AppCompatActivity implements NavigationView.
         }
         else if (id == R.id.filter)
         {
-            startActivity(new Intent(getApplicationContext(),Filter.class));
+            startActivityForResult(new Intent(getApplicationContext(),FilterAr.class) ,5);
         }
         else if(id == R.id.lang)
         {
             startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            finish();
         }
         else if(id==R.id.Logout)
         {
@@ -308,10 +309,6 @@ public class MainActivityAR extends AppCompatActivity implements NavigationView.
             }
 
 
-
-
-
-
         });
     }
 
@@ -363,18 +360,12 @@ public class MainActivityAR extends AppCompatActivity implements NavigationView.
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()),12));
             request(String.valueOf(mLocation.getLatitude()),String.valueOf(mLocation.getLongitude()));
         }
-
     }
-
-
-
     private void parceData(Map<String, String> result)
     {
         String responce = result.get("res").toString();
-        Log.e("fffffffffffffffff",responce);
-
+        schoolList.clear();
         try {
-
             JSONObject jsonObject = new JSONObject(responce.toString());
 
             String schools = jsonObject.getString("schools");
@@ -385,7 +376,7 @@ public class MainActivityAR extends AppCompatActivity implements NavigationView.
                 JSONObject jsonObject1 = schoolJsonArray1.getJSONObject(i);
                 // SchoolObject schoolObject = new SchoolObject(jsonObject1.getString("schoolId"),jsonObject1.getString("Title"),jsonObject1.getString("TitleAr"),jsonObject1.getString("CategoryId"),jsonObject1.getString("SubcategoryId"),jsonObject1.getString("IsSchool"),jsonObject1.getString("Rate"),jsonObject1.getString("Priority"),jsonObject1.getString("Lat"),jsonObject1.getString("Long"));
 //              (schoolId,  titleAr,  isSchool,  rate,  priority,  lat,  aLong,  CategoryTitle,  SubCategoryTitle )
-                SchoolObject schoolObject = new SchoolObject(jsonObject1.getString("schoolId").toString(),jsonObject1.getString("Title").toString(),jsonObject1.getString("IsSchool").toString(),jsonObject1.getString("Rate").toString(),jsonObject1.getString("Priority").toString(),jsonObject1.getString("Lat").toString(),jsonObject1.getString("Long").toString() ,jsonObject1.getString("CategoryTitle").toString(),jsonObject1.getString("SubCategoryTitle").toString());
+                SchoolObject schoolObject = new SchoolObject(jsonObject1.getString("Id").toString(),jsonObject1.getString("Title").toString(),jsonObject1.getString("IsSchool").toString(),jsonObject1.getString("Rate").toString(),jsonObject1.getString("Priority").toString(),jsonObject1.getString("Lat").toString(),jsonObject1.getString("Long").toString() ,jsonObject1.getString("CategoryTitle").toString(),jsonObject1.getString("SubCategoryTitle").toString());
                 schoolList.add(schoolObject);
             }
             String kids = jsonObject.getString("kidsCenters");
@@ -395,7 +386,7 @@ public class MainActivityAR extends AppCompatActivity implements NavigationView.
             for (int i=0 ; i < kidsJsonArray1.length() ; i++)
             {
                 JSONObject jsonObject1 = kidsJsonArray1.getJSONObject(i);
-                SchoolObject kidslObject = new SchoolObject(jsonObject1.getString("KidsCenterId").toString(),jsonObject1.getString("Title").toString(),jsonObject1.getString("IsSchool").toString(),jsonObject1.getString("Rate").toString(),jsonObject1.getString("Priority").toString(),jsonObject1.getString("Lat").toString(),jsonObject1.getString("Long").toString() ,jsonObject1.getString("CategoryTitle").toString(),jsonObject1.getString("SubCategoryTitle").toString());
+                SchoolObject kidslObject = new SchoolObject(jsonObject1.getString("Id").toString(),jsonObject1.getString("Title").toString(),jsonObject1.getString("IsSchool").toString(),jsonObject1.getString("Rate").toString(),jsonObject1.getString("Priority").toString(),jsonObject1.getString("Lat").toString(),jsonObject1.getString("Long").toString() ,jsonObject1.getString("CategoryTitle").toString(),jsonObject1.getString("SubCategoryTitle").toString());
                 schoolList.add(kidslObject);
             }
 
@@ -415,6 +406,8 @@ public class MainActivityAR extends AppCompatActivity implements NavigationView.
         LatLng schoolLatLang ;
         MarkerOptions schoolMarkerOptions ;
 
+        mMap.clear();
+
 
         for (int i = 0 ; i < schoolList.size();i++)
         {
@@ -430,6 +423,26 @@ public class MainActivityAR extends AppCompatActivity implements NavigationView.
                 schoolMarkerOptions = new MarkerOptions().position(schoolLatLang).icon(BitmapDescriptorFactory.fromResource(R.mipmap.kids)).title(schoolList.get(i).getTitle());
                 schoolList.get(i).setMarkerId(mMap.addMarker(schoolMarkerOptions).getId());
             }
+
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        mLocation = new Location( "fff");
+        if(requestCode == 5)
+        {
+            try
+            {
+                String res = data.getStringExtra("result");
+                Map<String, String> result = new HashMap<>() ;
+                result.put("res" , res.toString());
+                parceData(result);
+
+            }catch (Exception e){}
 
         }
     }

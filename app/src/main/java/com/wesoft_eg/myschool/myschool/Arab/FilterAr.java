@@ -1,6 +1,5 @@
-package com.wesoft_eg.myschool.myschool;
+package com.wesoft_eg.myschool.myschool.Arab;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,7 +7,6 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,15 +20,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
-import com.facebook.login.*;
-import com.wesoft_eg.myschool.myschool.Arab.FilterAr;
-import com.wesoft_eg.myschool.myschool.Arab.LoginAR;
-import com.wesoft_eg.myschool.myschool.Arab.MainActivityAR;
+import com.facebook.login.LoginManager;
+import com.wesoft_eg.myschool.myschool.Filter;
+import com.wesoft_eg.myschool.myschool.Login;
 import com.wesoft_eg.myschool.myschool.MOdel.CatModel;
 import com.wesoft_eg.myschool.myschool.MOdel.CityModel;
 import com.wesoft_eg.myschool.myschool.MOdel.CountryModel;
 import com.wesoft_eg.myschool.myschool.MOdel.Distrect;
 import com.wesoft_eg.myschool.myschool.MOdel.SubCatModel;
+import com.wesoft_eg.myschool.myschool.R;
 import com.wesoft_eg.myschool.myschool.netHelper.MakeRequest;
 import com.wesoft_eg.myschool.myschool.netHelper.VolleyCallback;
 
@@ -43,8 +41,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Filter extends AppCompatActivity
+public class FilterAr extends AppCompatActivity
 {
+
+
+
     Spinner country ;
     Spinner city ;
     Spinner area ;
@@ -71,30 +72,38 @@ public class Filter extends AppCompatActivity
     String str_subCategoryId =null ;
 
 
+
     LinearLayout l1 ;
     LinearLayout l2 ;
     Map<String, String> params = new HashMap<String, String>();
 
+
     String access_token ;
+
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_filter);
-        SharedPreferences sharedPrefv =getSharedPreferences("com.wesoft_eg.myschool.myschool",Context.MODE_PRIVATE);
+        setContentView(R.layout.activity_filter_ar);
+        SharedPreferences sharedPrefv =getSharedPreferences("com.wesoft_eg.myschool.myschool", Context.MODE_PRIVATE);
         access_token = sharedPrefv.getString("access_token" , null) ;
     }
+
+
+
     @Override
     protected void onResume()
     {
         super.onResume();
-
         params.put("isSchool",isSchool);
         init();
         get_cat();
     }
+
+
 
     private void init()
     {
@@ -127,11 +136,11 @@ public class Filter extends AppCompatActivity
         distrectArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         catModelArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         subCatModelArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        countryModels.add(new CountryModel("-1" ,"select country..." , "-1"));
-        cityModels.add(new CityModel("-1" , "select city..."));
-        distrects.add(new Distrect("-1" , "select district..."));
-        catModels.add(new CatModel("-1","select category...","",""));
-        subCatModels.add(new SubCatModel("-1","select sub_category..."));
+        countryModels.add(new CountryModel("-1" ,"اختر الدوله..." , "-1"));
+        cityModels.add(new CityModel("-1" , "اختر المدينه..."));
+        distrects.add(new Distrect("-1" , "اختر الحى..."));
+        catModels.add(new CatModel("-1","اختر النوع...","",""));
+        subCatModels.add(new SubCatModel("-1","اختر تصنيف النوع..."));
         countryArrayAdapter.notifyDataSetChanged();
         cityModelArrayAdapter.notifyDataSetChanged();
         distrectArrayAdapter.notifyDataSetChanged();
@@ -143,16 +152,16 @@ public class Filter extends AppCompatActivity
             {
                 str_countryId = countryModels.get(i).getCountryId();
                 if(!countryModels.get(i).getCountryId().equals("-1"))
-               {
-                   str_countryId = countryModels.get(i).getCountryId();
-                   getCites(countryModels.get(i).getCountryId());
-                   cityModels.clear();
-                   distrects.clear();
-                   cityModels.add(new CityModel("-1" , "select city..."));
-                   distrects.add(new Distrect("-1" , "select district..."));
-                   cityModelArrayAdapter.notifyDataSetChanged();
-                   distrectArrayAdapter.notifyDataSetChanged();
-               }
+                {
+                    str_countryId = countryModels.get(i).getCountryId();
+                    getCites(countryModels.get(i).getCountryId());
+                    cityModels.clear();
+                    distrects.clear();
+                    cityModels.add(new CityModel("-1" , "اختر المدينه..."));
+                    distrects.add(new Distrect("-1" , "اختر الحى..."));
+                    cityModelArrayAdapter.notifyDataSetChanged();
+                    distrectArrayAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override
@@ -170,7 +179,7 @@ public class Filter extends AppCompatActivity
                 {
                     getDistrect(cityModels.get(i).getCityId());
                     distrects.clear();
-                    distrects.add(new Distrect("-1" , "select district..."));
+                    distrects.add(new Distrect("-1" , "اختر الحى..."));
                     distrectArrayAdapter.notifyDataSetChanged();
 
                 }
@@ -229,7 +238,7 @@ public class Filter extends AppCompatActivity
                 if(radioGroup.getCheckedRadioButtonId() == R.id.school)
                 {
                     isSchool ="true";
-                    search_name.setHint("school name");
+                    search_name.setHint("اسم المدرسه");
                     params.put("IsSchool",isSchool);
                     l1.setVisibility(View.VISIBLE);
                     l2.setVisibility(View.VISIBLE);
@@ -237,7 +246,7 @@ public class Filter extends AppCompatActivity
                 }
                 else if(radioGroup.getCheckedRadioButtonId() == R.id.kg)
                 {
-                    search_name.setHint("kg name");
+                    search_name.setHint("اسم الحضانه");
                     isSchool = "false";
                     params.put("IsSchool",isSchool);
                     l1.setVisibility(View.VISIBLE);
@@ -248,8 +257,7 @@ public class Filter extends AppCompatActivity
                 {
                     search_name.setHint("name");
                     isSchool = "x";
-                    params.put("IsSchool",isSchool);
-                    l1.setVisibility(View.GONE);
+                    params.put("IsSchool",isSchool);                    l1.setVisibility(View.GONE);
                     l2.setVisibility(View.GONE);
                 }
             }
@@ -257,15 +265,16 @@ public class Filter extends AppCompatActivity
         getCountry();
     }
 
+
     private void getSubCat(String id)
     {
         subCatModels.clear();
-        subCatModels.add(new SubCatModel("-1","select sub_category..."));
+        subCatModels.add(new SubCatModel("-1","اختر تصنيف النوع..."));
         subCatModelArrayAdapter.notifyDataSetChanged();
 
         final Map<String, String> params = new HashMap<String, String>();
 
-        MakeRequest makeRequest = new MakeRequest("api/Values/EngGetSubCategories?categoryId="+id , "0" , params , this);
+        MakeRequest makeRequest = new MakeRequest("api/Values/ArGetSubCategories?categoryId="+id , "0" , params , this);
 
         makeRequest.request( new VolleyCallback()
         {
@@ -298,7 +307,7 @@ public class Filter extends AppCompatActivity
     {
         final Map<String, String> params = new HashMap<String, String>();
 
-        MakeRequest makeRequest = new MakeRequest("/api/Values/EngGetDistricts?cityId="+city , "0" , params , this);
+        MakeRequest makeRequest = new MakeRequest("/api/Values/ArGetDistricts?cityId="+city , "0" , params , this);
 
         makeRequest.request( new VolleyCallback()
         {
@@ -332,7 +341,7 @@ public class Filter extends AppCompatActivity
     {
         final Map<String, String> params = new HashMap<String, String>();
 
-        MakeRequest makeRequest = new MakeRequest("/api/Values/EngGetCities?countryId="+countryId , "0" , params , this);
+        MakeRequest makeRequest = new MakeRequest("/api/Values/ArGetCities?countryId="+countryId , "0" , params , this);
 
         makeRequest.request( new VolleyCallback()
         {
@@ -361,10 +370,12 @@ public class Filter extends AppCompatActivity
         });
     }
 
+
+
     private void getCountry()
     {
 
-        MakeRequest makeRequest = new MakeRequest("/api/Values/EngGetCountries" , "0" , params , this);
+        MakeRequest makeRequest = new MakeRequest("/api/Values/ArGetCountries" , "0" , params , this);
 
         makeRequest.request( new VolleyCallback()
         {
@@ -397,22 +408,20 @@ public class Filter extends AppCompatActivity
     }
 
 
+
     public void onRadioButtonClicked(View view) {
     }
-
 
 
     private void get_cat()
     {
         catModels.clear();
-        catModels.add(new CatModel("-1","select category","",""));
+        catModels.add(new CatModel("-1","اختر التصنيف...","",""));
         catModelArrayAdapter.notifyDataSetChanged();
 
         final Map<String, String> params2 = new HashMap<String, String>();
 
-
-
-        MakeRequest makeRequest = new MakeRequest("api/Values/EngGetFilteredCategories?IsSchool="+isSchool , "0" , params2 , this);
+        MakeRequest makeRequest = new MakeRequest("api/Values/ArGetFilteredCategories?IsSchool="+isSchool , "0" , params2 , this);
 
         makeRequest.request( new VolleyCallback()
         {
@@ -470,7 +479,7 @@ public class Filter extends AppCompatActivity
 
         if(str_categoryId==null||str_categoryId.equals("-1"))
         {
-           str_categoryId = null ;
+            str_categoryId = null ;
         }else  params.put("categoryId",str_categoryId);
 
 
@@ -486,7 +495,7 @@ public class Filter extends AppCompatActivity
         if(x==0)
         {
 
-            MakeRequest makeRequest = new MakeRequest("/api/Values/EngApplyFilters" , "1" ,params , this);
+            MakeRequest makeRequest = new MakeRequest("/api/Values/ArApplyFilters" , "1" ,params , this);
 
             makeRequest.request( new VolleyCallback()
             {
@@ -508,11 +517,13 @@ public class Filter extends AppCompatActivity
         }
 
     }
+
+
+
     public void filter(View view)
     {
         applyFilters();
 
     }
-
 
 }
